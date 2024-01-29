@@ -1,14 +1,16 @@
 <?php
-	$bdd = new PDO('mysql:host=localhost;dbname=nomDB', 'root', 'pwd');
-	$reponse = …;
-	
-	
-	while (…)
-	{
-	
-	        …
+$bdd = new PDO('mysql:host=localhost;dbname=jeux_video', 'root', 'pwd');
 
-	
-	}
-	$reponse->closeCursor();
+
+$sqlQuery = 'SELECT * FROM jeux_video';
+
+$statement = $mysqlClient->prepare($sqlQuery);
+$statement->execute();
+
+$jeux = $statement->fetchAll();
+
+foreach ($jeux as $jeu) {
+	echo $jeu['titre'];
+}
+
 ?>
