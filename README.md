@@ -11,4 +11,16 @@ Votre descriptif du cahier des charges ici
 - La partie cliente qui regroupe tous les fichiers nécessaires au fonctionnement du client développé en HTML/CSS/JS se trouve dans /projet/client </br>
 - La partie serveur qui regroupe tous les fichiers nécessaires au fonctionnement du serveur développé en PHP se trouve dans /projet/server
 
-
+``
+.
+|-- Root
+| |-- Folder1
+| | |-- Subfolder1
+| | | |-- File1.txt
+| | | |-- File2.txt
+| | |-- Subfolder2
+| | | |-- File3.txt
+| |-- Folder2
+| | |-- File4.txt
+| | |-- File5.txt
+``
