@@ -14,13 +14,13 @@ Il y aura une chatroom principale et éventuellement d’autres chatroom
 ```
 .
 |
-|--serveur
+|__serveur
 ||
-||--maji.php
+||__maji.php
 |
-|--client
+|__client
 ||
-||--index.html
+||__index.html
 ```
 # Idées de Projet
 ## Inventaire de services réseau
