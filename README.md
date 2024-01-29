@@ -1,10 +1,11 @@
 # Projet
 Repository du projet personnel du module 151
 
-## Titre du projet
+## Semaphor
 
 ### Description du projet
-Votre descriptif du cahier des charges ici
+Durant ce module 151, nous allons créer une application web client-serveur en PHP et JavaScript. Mon projet s’intitule Semaphor et consiste en une application de messagerie en direct. Les utilisateurs peuvent lire les anciens messages et doivent se loguer pour en envoyer.
+Il y aura une chatroom principale et éventuellement d’autres chatroom
 
 ### Arborescence
 - L'analyse et les différents tests technos sont effectués dans /exercices
