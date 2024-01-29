@@ -24,3 +24,10 @@ Les apprentis replacent les différents éléments dans les parties client et se
 • Faites les adaptations nécessaires pour que lorsque le bouton « Affiche » est pressé, le client demande les données au serveur (fichier php) et l’affiche dans le tableau
 
  • Remplissez le diagramme sur OneNote
+ 
+ ## Documentation
+### Client
+Sur le client, on utilise JQuery pour aller chercher les informations sur le serveur (GET). Le XML retourné est alors traité de la même manière que pour l'exercice 3 afin d'être affiché dans un tableau.
+### Serveur
+Il n'y a pas grand chose sur le serveur. Un simple fichier XML est retourné.
+

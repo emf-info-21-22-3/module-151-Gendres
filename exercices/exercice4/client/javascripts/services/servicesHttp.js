@@ -5,7 +5,7 @@
  * @version 1.0 / 20-SEP-2013
  */
 
-var BASE_URL = "mettez ici l'adresse du PHP que vous souhaitez appeler";
+var BASE_URL = "http://127.0.0.1:8080/exercices/exercice4/serveur/index.php";
 
 /**
  * Fonction permettant de charger les données d'équipe.
