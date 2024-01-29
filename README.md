@@ -13,13 +13,13 @@ Votre descriptif du cahier des charges ici
 ```
 .
 |
-|--serveur
+|__serveur
 ||
-||--maji.php
+||__maji.php
 |
-|--client
+|__client
 ||
-||--index.html
+||__index.html
 ```
 # Idées de Projet
 ## Inventaire de services réseau
