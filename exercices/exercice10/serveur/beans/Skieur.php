@@ -9,7 +9,8 @@
  * @author Neuhaus Olivier <neuhauso@edufr.ch>
  * @project Exercice 10 - debuggage
  */
-class Skieur {
+class Skieur
+{
 
   /**
    * Variable représentant le nom du skieur.
@@ -39,7 +40,8 @@ class Skieur {
    * @param string $nomEquipe. Nom du skieur.
    * @param string $position. Position du skieur.
    */
-  public function __construct($pkSkieur, $nom, $position) {
+  public function __construct($pkSkieur, $nom, $position)
+  {
     $this->pk_skieur = $pkSkieur;
     $this->nom = $nom;
     $this->position = $position;
@@ -50,7 +52,8 @@ class Skieur {
    *
    * @return nom du skieur
    */
-  public function getNom() {
+  public function getNom()
+  {
     return $this->nom;
   }
 
@@ -59,28 +62,30 @@ class Skieur {
    *
    * @return pk du skieur
    */
-  public function getPk() {
+  public function getPk()
+  {
     return $this->pk_skieur;
   }
-  
-   /**
+
+  /**
    * Fonction qui retourne la position du skieur
    *
    * @return position du skieur
    */
-  public function getPosition() {
+  public function getPosition()
+  {
     return $this->position;
   }
-  
+
   /**
-  * Fonction qui retourne le contenu du bean au format XML
-  * @return le contenu du bean au format XML
-  */
+   * Fonction qui retourne le contenu du bean au format XML
+   * @return le contenu du bean au format XML
+   */
   public function toXML()
   {
     $result = '<skieur>';
-    $result = $result . '<nom>'.$this->getNom().'</nom>';
-    $result = $result . '<position>'.$this->getPosition().'</position>';
+    $result = $result . '<nom>' . $this->getNom() . '</nom>';
+    $result = $result . '<position>' . $this->getPosition() . '</position>';
     $result = $result . '</skieur>';
     return $result;
   }

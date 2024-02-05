@@ -15,11 +15,6 @@ class Connection {
 		}
 	}
 
-	/**
-     * Fonction permettant d'exécuter une requête MySQL.
-	 * 
-	 * @param String $query. Requête à exécuter.
-     */
     public function executeQuery($query) {
     	try {
 	        $queryRes =  $this->pdo->query($query);		
