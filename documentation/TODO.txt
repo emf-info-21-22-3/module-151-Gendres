@@ -1,0 +1,37 @@
+||||||SERVEUR||||||
+
+===CTRL===
+index.php
+
+===WRK===
+Wrk.php
+MessageManager.php
+RoomManager.php
+SessionManager.php
+WrkDb.php
+
+===BEANS===
+Message.php
+Room.php
+
+||||||CLIENT||||||
+
+===VUE===
+index.html
+main.css
+
+===CTRL===
+Ctrl.js
+
+===WRK===
+Http.js
+
+
+===TODO ===
+- doc creation de compte OK
+
+EA :
+	- dia activité : check message null sur serveur OK
+	- dia séquence : alt OK
+	- dia séquence int. : passer EA
+	- dia classes OK 
