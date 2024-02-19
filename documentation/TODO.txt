@@ -33,5 +33,5 @@ Http.js
 EA :
 	- dia activité : check message null sur serveur OK
 	- dia séquence : alt OK
-	- dia séquence int. : passer EA
+	- dia séquence int. : passer EA OK
 	- dia classes OK 
