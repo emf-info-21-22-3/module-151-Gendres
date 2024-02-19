@@ -68,16 +68,16 @@ Voici les Use Cases de l’application. Il y aura trois acteurs différents : le
 
 # Idées de Projet [DEPRECATED]
 ## Inventaire de services réseau
-cette app permetrerait de gérer qu'est-ce qui est déployé où et depuis quand dans un réseau.
-Par exemple
+~~cette app permetrerait de gérer qu'est-ce qui est déployé où et depuis quand dans un réseau.~~
+~~Par exemple~~
 ```
 pi-hole et homeassistant sur raspi01
 unifi controler sur raspi02
 omv sur srv-hp
 ```
 ## Appli de chat en direct
-cette app permettrait de voir des anciens messages envoyés dans une chatroom(s). en gros, faire un groupe Whatsapp en php.
+~~cette app permettrait de voir des anciens messages envoyés dans une chatroom(s). en gros, faire un groupe Whatsapp en php.~~
 
 ## Inventaire de collection de vinyles
-cette app permettrait au users de creer un compte afin de gérer leur collection. 
+~~cette app permettrait au users de creer un compte afin de gérer leur collection. ~~
 

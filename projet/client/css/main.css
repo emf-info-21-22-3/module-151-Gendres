@@ -1,0 +1,41 @@
+:root {
+    --sidebar-width: 10%;
+    --view-width: 75%;
+    --footer-height: 30px; 
+  }
+
+
+
+
+  
+  body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 100vh; 
+  }
+  
+  .sidebarleft {
+    float: left;
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--footer-height));
+  }
+  
+  #view {
+    margin: 0 auto; /* Centers the element horizontally */
+    width: var(--view-width);
+    height: calc(100vh - var(--footer-height));
+  }
+  
+  .sidebarright {
+    float: right;
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--footer-height));
+  }
+  
+  .footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
+    width: 100%;
+    height: var(--footer-height);
+  }
+  
