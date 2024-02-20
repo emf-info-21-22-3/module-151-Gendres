@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS `t_user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `t_user` (
   `username` varchar(20) NOT NULL,
-  `password_hash` varchar(32) NOT NULL,
+  `password_hash` varchar(60) NOT NULL,
   `isAdmin` tinyint NOT NULL,
   `pk_user` int NOT NULL,
   PRIMARY KEY (`pk_user`),

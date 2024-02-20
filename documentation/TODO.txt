@@ -35,3 +35,14 @@ EA :
 	- dia séquence : alt OK
 	- dia séquence int. : passer EA OK
 	- dia classes OK 
+
+
+pas de PUT tout en POST
+séparer Room et messages dans GET
+
+utiliser cookie pour login
+acces guest
+lire msg depuis db
+acces admin
+hash pwd db
+

@@ -5,6 +5,7 @@ body {
     padding: 0;
 }
 .chat-container {
+    height: 100vh;
     max-width: 600px;
     margin: 20px auto;
     border-radius: 10px;
@@ -19,6 +20,7 @@ body {
     text-align: center;
 }
 .chat-messages {
+    height: 100%;
     padding: 10px;
 }
 .message {
