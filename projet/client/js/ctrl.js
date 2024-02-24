@@ -48,6 +48,7 @@ class Ctrl {
 
     
   }
+  
   checkLoginError(data, text, jqXHR) {
     $("#status").find("p").remove();
     $("#status").append("<p style='color:red;'>Problème avec la requete sur le serveur</p>");
