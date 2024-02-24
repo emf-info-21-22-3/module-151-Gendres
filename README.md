@@ -17,25 +17,32 @@ Il y aura une chatroom principale et éventuellement d’autres chatrooms
 .
 ├───client
 │   │   index.html
-│   │
+│   │   
 │   ├───css
-│   │
+│   │       
+│   ├───img
+│   │       
 │   ├───js
 │   │       ctrl.js
 │   │       http.js
-│   │
+│   │       VueCtrl.js
+│   │       
 │   └───views
 │           chat.html
+│           guest_chat.html
 │           login.html
+│           sidebar-rooms.html
+│           sidebar-userInfo.html
 │
 └───server
     │   index.php
-    │
+    │   
     ├───obj
     │       Message.php
     │       Room.php
-    │
+    │       
     └───wrk
+            configDb.php
             MessageManager.php
             RoomManager.php
             SessionManager.php
@@ -79,5 +86,5 @@ omv sur srv-hp
 ~~cette app permettrait de voir des anciens messages envoyés dans une chatroom(s). en gros, faire un groupe Whatsapp en php.~~
 
 ## Inventaire de collection de vinyles
-~~cette app permettrait au users de creer un compte afin de gérer leur collection. ~~
+~~cette app permettrait au users de creer un compte afin de gérer leur collection.~~
 
