@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `t_message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `t_message` (
-  `pk_message` int NOT NULL,
+  `pk_message` int NOT NULL AUTO_INCREMENT,
   `texte` varchar(160) NOT NULL,
   `dateEnvoi` datetime NOT NULL,
   `fk_user` int NOT NULL,
@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `t_room`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `t_room` (
   `room_id` varchar(20) NOT NULL,
-  `pk_room` int NOT NULL,
+  `pk_room` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`pk_room`),
   UNIQUE KEY `idt_room_UNIQUE` (`room_id`),
   UNIQUE KEY `pk_room_UNIQUE` (`pk_room`)
@@ -84,7 +84,7 @@ CREATE TABLE `t_user` (
   `username` varchar(20) NOT NULL,
   `password_hash` varchar(60) NOT NULL,
   `isAdmin` tinyint NOT NULL,
-  `pk_user` int NOT NULL,
+  `pk_user` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`pk_user`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `pk_user_UNIQUE` (`pk_user`)
@@ -97,7 +97,7 @@ CREATE TABLE `t_user` (
 
 LOCK TABLES `t_user` WRITE;
 /*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
-INSERT INTO `t_user` VALUES ('admin','admin',1,1),('gendre','password',0,2);
+INSERT INTO `t_user` VALUES ('admin','$2y$10$z7zgC8m7Y3a2QgHhEXkaZup2DHMJFzCiFWONEi5Un5jbm/3MvBKM6',1,1),('gendre','$2y$10$2adRWznHq6SzGmHXai4rQevYA.gH6edoAuLlIwJJoTlkZofnyXl8y',0,2);
 /*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

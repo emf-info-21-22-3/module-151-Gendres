@@ -5,15 +5,28 @@ class SessionManager
     {
 
     }
+    static function  getSessionInfo()
+    {
+        session_start();
+        if (isset($_SESSION["isLogged"])) {
+            return array(
+                'username' => $_SESSION['username'],
+                'isLogged' => $_SESSION['isLogged'],
+                'admin' => $_SESSION['isAdmin']
+            );
+        } else {
+            return array('username' => "",'isLogged' => "",'admin' => "");
+        }
+    }
     function checkLogin($user, $pass)
     {
         session_start();
         $userInfo = $this->readUser($user);
 
-        if ($userInfo && password_verify($pass, $userInfo['hash'])) {
+        if ($userInfo && password_verify($pass, (string) $userInfo['hash'])) {
             //si le mot de passe est bon, on ouvre la session.
             $_SESSION['isLogged'] = true;
-
+            $_SESSION['username'] = $userInfo['username'];
             if ($userInfo['admin'] = 1) {
                 $_SESSION['isAdmin'] = true;
             } else {
@@ -34,12 +47,16 @@ class SessionManager
         return $retour;
 
     }
-
+    function disconnectUser()
+    {
+        session_start();
+        session_destroy();
+    }
     public function readUser($user)
     {
         require_once("WrkDb.php");
 
-        $connection = new WrkDb();
+        $connection = WrkDb::getInstance();
         // Using a prepared statement to prevent SQL injection
         $query = $connection->executeQuery("SELECT * FROM t_user WHERE username = ? LIMIT 1", array($user));
 
@@ -60,4 +77,3 @@ class SessionManager
     }
 }
 
-?>
