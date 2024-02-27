@@ -1,5 +1,6 @@
 <?php
-
+require_once("./obj/Room.php");
+require_once("./wrk/WrkDb.php");
 class RoomManager
 {
     function __construct()
@@ -7,8 +8,7 @@ class RoomManager
     }
     function getAll()
     {
-        require_once("./obj/Room.php");
-        require_once("./wrk/WrkDb.php");
+
 
 
         $connection = WrkDb::getInstance();

@@ -1,7 +1,13 @@
 <?php
+require_once("./wrk/RoomManager.php");
+require_once("./obj/Room.php");
+require_once("./wrk/MessageManager.php");
+require_once("./obj/Message.php");
+require_once("./wrk/SessionManager.php");
+
 header("Access-Control-Allow-Origin: http://localhost:8081");
 header("Access-Control-Allow-Credentials: true");
-
+session_start();
 if (isset($_SERVER['REQUEST_METHOD'])) {
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
@@ -11,8 +17,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 $room = $_GET['rooms'];
 
                 // Forward vers RoomManager.php
-                require_once("./wrk/RoomManager.php");
-                require_once("./obj/Room.php");
+
                 //"Retourner la liste des room.<br>";
                 $roomManager = new RoomManager();
                 foreach ($roomManager->getAll() as $room) {
@@ -23,8 +28,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 $room = $_GET['messages'];
 
                 // Forward vers MessageManager.php
-                require_once("./wrk/MessageManager.php");
-                require_once("./obj/Message.php");
+
                 // "Retourner la liste des messages de la room $room.<br>";
                 $messageManager = new MessageManager();
                 foreach ($messageManager->get($room) as $message) {
@@ -52,12 +56,13 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                             //Vérifier si le login est ok 
                             //Forward vers SessionManager.php             
 
-                            require_once("./wrk/SessionManager.php");
+
 
                             $sessionManager = new SessionManager();
                             echo $sessionManager->checkLogin($user, $pass);
 
                         } else {
+                            //todo XML
                             echo 'Paramètre user ou pass manquant<br>';
                         }
                         break;
@@ -69,8 +74,11 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                             // Créer un nouvel utilisateur
                             // Forward vers SessionManager.php
 
-                            require_once("./wrk/SessionManager.php");
-                            echo "création de  user ($user) avec pass ($pass).<br>";
+                            $sessionManager = new SessionManager();
+
+                            echo '<createOk>' . $sessionManager->createUser($user, $pass) . '</createOk>';
+
+
                         } else {
                             echo 'Paramètre user ou pass manquant pour créer un nouvel utilisateur<br>';
                         }
@@ -78,7 +86,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                     case 'disconnect-user':
                         // déconnecte l'utilisateur
                         // Forward vers SessionManager.php
-                        require_once("./wrk/SessionManager.php");
+
                         $sessionManager = new SessionManager();
                         $sessionManager->disconnectUser();
 
@@ -91,11 +99,11 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                             // Envoyer un message
                             // Forward vers MessageManager.php
 
-                            require_once("./wrk/MessageManager.php");
+
                             //echo "enregistrer un message avec : texte ($texte), user ($user) et room_id ($room_id) .<br>";
                             $messageManager = new MessageManager();
                             echo $messageManager->send($room_id, $texte);
-                            
+
                         } else {
                             echo 'Paramètre texte, user ou room_id manquant pour un nouveau message<br>';
                         }
@@ -108,7 +116,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 }
             } else {
                 echo 'Paramètre action manquant<br>';
-                
+
             }
             break;
 
@@ -122,14 +130,14 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 // Supprimer un message
                 // Forward vers MessageManager.php
                 echo "supprimer message_id ($message_id).<br>";
-                require_once("./wrk/MessageManager.php");
+
             } else {
                 echo 'Paramètre message_id manquant<br>';
             }
             break;
         default:
             echo "Méthode de requête non reconnue<br>";
-            http_response_code(404);
+            http_response_code(400);
             break;
     }
 }

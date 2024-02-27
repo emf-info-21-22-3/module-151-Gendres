@@ -28,21 +28,5 @@ Http.js
 
 
 ===TODO ===
-- doc creation de compte OK
-
-EA :
-	- dia activité : check message null sur serveur OK
-	- dia séquence : alt OK
-	- dia séquence int. : passer EA OK
-	- dia classes OK 
-
-
-pas de PUT tout en POST
-séparer Room et messages dans GET
-
-utiliser cookie pour login
-acces guest
-lire msg depuis db
-acces admin
-hash pwd db
-
+heure des message pas en UTC
+mettre les import en haut

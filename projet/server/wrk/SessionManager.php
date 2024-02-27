@@ -1,11 +1,12 @@
 <?php
+require_once("./wrk/WrkDb.php");
 class SessionManager
 {
     function __construct()
     {
 
     }
-    static function  getSessionInfo()
+    static function getSessionInfo()
     {
         session_start();
         if (isset($_SESSION["isLogged"])) {
@@ -15,12 +16,12 @@ class SessionManager
                 'admin' => $_SESSION['isAdmin']
             );
         } else {
-            return array('username' => "",'isLogged' => "",'admin' => "");
+            return array('username' => "", 'isLogged' => "", 'admin' => "");
         }
     }
     function checkLogin($user, $pass)
     {
-        session_start();
+        
         $userInfo = $this->readUser($user);
 
         if ($userInfo && password_verify($pass, (string) $userInfo['hash'])) {
@@ -32,13 +33,16 @@ class SessionManager
             } else {
                 $_SESSION['isAdmin'] = false;
             }
+            
             $retour = "
             <login>
             <status>true</status>
             <isAdmin>$_SESSION[isAdmin]</isAdmin>
+            <username>$_SESSION[username]</username>
             </login>";
 
         } else {
+            http_response_code(403);
             $retour = "
             <login>
             <status>false</status>
@@ -47,6 +51,30 @@ class SessionManager
         return $retour;
 
     }
+    function createUser($user, $pass)
+    {
+        
+        $connection = WrkDb::getInstance();
+
+        $hash = password_hash($pass, CRYPT_SHA256);
+        //boolean; true si le username est déja dans la DB
+        $userExist = count($connection->executeQuery("SELECT * FROM t_user WHERE username = ?", array($user))->fetchAll(PDO::FETCH_ASSOC)) != 0;
+
+
+        if (!$userExist) {
+
+            $sql = "INSERT INTO t_user (username, password_hash, isAdmin) VALUES (:username, :hash, 0)";
+            $params = array(':username' => $user, ':hash' => $hash);
+            $query = $connection->executeQuery($sql, $params);
+            http_response_code(200);
+            return $query->rowCount();
+        } else {
+            http_response_code(409);
+            return 0;
+        }
+
+    }
+
     function disconnectUser()
     {
         session_start();
@@ -54,7 +82,7 @@ class SessionManager
     }
     public function readUser($user)
     {
-        require_once("WrkDb.php");
+        
 
         $connection = WrkDb::getInstance();
         // Using a prepared statement to prevent SQL injection

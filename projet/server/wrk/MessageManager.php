@@ -1,5 +1,7 @@
 <?php
-
+require_once("./obj/Message.php");
+require_once("./wrk/WrkDb.php");
+require_once("./wrk/SessionManager.php");
 class MessageManager
 {
     function __construct()
@@ -7,8 +9,7 @@ class MessageManager
     }
     function get($room_id)
     {
-        require_once("./obj/Message.php");
-        require_once("./wrk/WrkDb.php");
+
 
 
         $connection = WrkDb::getInstance();
@@ -26,26 +27,28 @@ class MessageManager
                 $msg = new Message($row["pk_message"], $row["texte"], $row["dateEnvoi"], $row["fk_room"], $username);
                 $retour[] = $msg;
             }
+            http_response_code(200);
             return $retour;
         } else {
-            return null; // Return null if user not found
+            return null;
         }
     }
     function send($room_id, $message)
     {
-        
-        require_once("./wrk/SessionManager.php");
+
+
         $sesion = SessionManager::getSessionInfo();
 
         //check session
         if ($sesion["isLogged"] == true) {
             // user dans la session
             $user = $sesion["username"];
+            http_response_code(200);
             return $this->writeMessage($room_id, $user, $message);
         } else {
             //throw 403
             http_response_code(403);
-            return "NOK";
+
         }
     }
     private function writeMessage($room_id, $user, $message)
@@ -54,7 +57,7 @@ class MessageManager
 
         // return $room_id . $user . $message;
 
-        require_once("./wrk/WrkDb.php");
+
         $connection = WrkDb::getInstance();
 
 

@@ -3,7 +3,7 @@ include_once('configDb.php');
 
 class WrkDb
 {
-    private static $instance; // Static variable to hold the single instance
+    private static $instance; 
     private $pdo;
 
     /**
@@ -38,9 +38,9 @@ class WrkDb
         try {
             $stmt = $this->pdo->prepare($query);
             $stmt->execute($params);
-            return $stmt; // Return the PDO statement object
+            return $stmt; 
         } catch (PDOException $e) {
-            // Log the error and terminate gracefully
+            http_response_code(500);
             error_log("Erreur lors de l'exécution de la requête: " . $e->getMessage());
             die("Erreur lors de l'exécution de la requête: " . $e->getMessage());
         }
