@@ -25,9 +25,10 @@ class Ctrl {
     }
 
     checkLoginSuccess(data, text, jqXHR) {
+        //TODO utiliser localstorage pour les donnée de connexion (les supprimer quand deconnection)
         $(data)
             .find("login")
-            .each(function() {
+            .each(function () {
                 if ($(this).find("status").text() == "true") {
                     ctrl.vue.loadHTML("chat");
 
@@ -119,7 +120,20 @@ class Ctrl {
     }
     loadRoomSuccess(data, text, jqXHR) {
 
-        //TODO c'est tjr admin
+        //TODO c'est tjr admin (mettre en place localstorage)
+        //TODO traiter XML pour créer message comme ça :
+        /*
+        <div class="message">
+            <div class="info">
+                <div class="user">
+                    <div class="avatar">A</div>
+                    <div class="nom">admin</div>
+                </div>
+                <div class="date">10/03/23</div>
+            </div>
+            <div class="text">Hey! ça joue ?</div>
+        </div>
+        */
         var currentUser = $(".user-info .username").text();
         console.log(currentUser);
         $(".chat-messages").empty();

@@ -111,4 +111,8 @@ class VueCtrl {
             }
         });
     }
+    //TODO copy code et use methodes
+    loadLogin(){}
+    loadChat(){}
+    loadGuest(){}
 }

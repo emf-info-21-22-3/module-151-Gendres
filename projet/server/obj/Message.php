@@ -51,6 +51,7 @@ class Message
             <div class="text">Hey! ça joue ?</div>
         </div>
         */
+        //TODO output XML
         $userFirstLetter = strtoupper(substr($this->user_id, 0, 1));
         return "
         <div class='message'>
