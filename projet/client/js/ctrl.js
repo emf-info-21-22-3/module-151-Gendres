@@ -1,3 +1,12 @@
+/**
+ * la classe Ctrl
+ * s'occupe de tout c'est à dire :
+ *  - chef d'orchestre
+ *  - traitement des données reçues
+ *  
+ * @version : 1.6 (???)
+ * @author le seul, l'unique, Simon Gendre
+ */
 class Ctrl {
     constructor() {
         this.codeExecuted = false;

@@ -1,3 +1,12 @@
+/**
+ * la classe Vue
+ * s'occupe de tout ce qui est IHM c'est à dire :
+ *  - onclic
+ *  - charger les bouts des la single page app
+ *  
+ * @version : disons plus que "beta"
+ * @author le seul, l'unique, Simon Gendre
+ */
 class VueCtrl {
     constructor() {
         //chargement de la page principale
@@ -88,7 +97,8 @@ class VueCtrl {
                 }
             });
         });
-        //petite blagounette
+        /*petite blagounette 
+        (j'avais déjà dit à l'analyse que je ferais pas l'option "mot de passe oublié")*/
         $("#forgot-btn").click((event) => {
             //affiche une image et la retire par après car l'option mot de passe oublié n'est pas implémenté et ne le sera pas de si tôt.
             $("#sidebarright").append("<img src='./img/forgot.jpg'>");
@@ -104,6 +114,7 @@ class VueCtrl {
     }
     loadChat() {
         this.loadSideBar("userInfo", "right");
+        //TODO les rooms sont pas encore implémentées
         //this.loadSideBar("rooms", "left");
 
         $("#send-btn").click((event) => {

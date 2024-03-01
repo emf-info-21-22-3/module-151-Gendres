@@ -1,4 +1,14 @@
+
 <?php
+/**
+ * le PHP bon à tout faire
+ * s'occupe de rediriger les actions REST vers les autres workers c'est à dire :
+ *  - instancier les workers
+ *  - appeler les bonne méthodes, au bon moment, avec les bon paramètre (pas si compliqué ?)
+ *  
+ * @version : 2.3
+ * @author le seul, l'unique, Simon Gendre
+ */
 require_once("./wrk/RoomManager.php");
 require_once("./obj/Room.php");
 require_once("./wrk/MessageManager.php");
