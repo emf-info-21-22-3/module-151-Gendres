@@ -53,7 +53,23 @@ class Message
         */
         //TODO output XML
         $userFirstLetter = strtoupper(substr($this->user_id, 0, 1));
+        $dateNotUTC = DateTime::createFromFormat('Y-m-d H:i:s', $this->date_sent);
+        $dateNotUTC->setTimezone(new DateTimeZone('Europe/Zurich'));
+        $date = $dateNotUTC->format('d-m-Y H:i');
         return "
+        <message>
+            <info>
+                <id>$this->message_id</id>
+                <user>
+                    <username>$this->user_id</username>
+                    <avatar>$userFirstLetter</avatar>
+                </user>
+                <date>$date</date>
+            </info>
+            <texte>$this->texte</texte>
+        </message>
+        ";
+        /*return "
         <div class='message'>
         <div class='info'>
             <div class='user'>
@@ -64,7 +80,7 @@ class Message
         </div>
         <div class='text'>$this->texte</div>
     </div>
-        ";
+        ";*/
 
     }
 }

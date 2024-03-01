@@ -25,25 +25,31 @@ class Ctrl {
     }
 
     checkLoginSuccess(data, text, jqXHR) {
-        //TODO utiliser localstorage pour les donnée de connexion (les supprimer quand deconnection)
-        $(data)
-            .find("login")
-            .each(function () {
-                if ($(this).find("status").text() == "true") {
-                    ctrl.vue.loadHTML("chat");
+        
+        $(data).find("login").each(function () {
+            if ($(this).find("status").text() == "true") {
+                // Store user information in localStorage
+                var username = $(this).find("username").text();
+                var avatar = username.substr(0, 1);
 
-                } else {
-                    $("#status").find("p").remove();
-                    $("#status").append("<p style='color:red;'>Login erroné</p>");
-                }
-            });
+                // Store user information in localStorage
+                localStorage.setItem("username", username);
+                localStorage.setItem("avatar", avatar.toUpperCase());
 
-        //met à jour les infos dans la sidebar
-        var username = $(data).find("username").text();
-        var avatar = username.substr(0, 1);
-        $(".user-info .avatar").text(avatar.toUpperCase());
-        $(".user-info .username").text(username);
+                ctrl.vue.loadHTML("chat");
+            } else {
+                $("#status").find("p").remove();
+                $("#status").append("<p style='color:red;'>Login erroné</p>");
+            }
+        });
 
+        // Met à jour les infos dans la sidebar
+        var storedUsername = localStorage.getItem("username");
+        var storedAvatar = localStorage.getItem("avatar");
+        setTimeout(() => {
+            $(".user-info .avatar").text(storedAvatar);
+            $(".user-info .username").text(storedUsername);
+        }, 50);
 
 
     }
@@ -116,12 +122,10 @@ class Ctrl {
         }
     }
     loadRoom(roomId) {
+        localStorage.setItem("currentRoom", roomId);
         this.http.loadRoom(roomId, ctrl.loadRoomSuccess, ctrl.loadRoomError);
     }
     loadRoomSuccess(data, text, jqXHR) {
-
-        //TODO c'est tjr admin (mettre en place localstorage)
-        //TODO traiter XML pour créer message comme ça :
         /*
         <div class="message">
             <div class="info">
@@ -134,16 +138,39 @@ class Ctrl {
             <div class="text">Hey! ça joue ?</div>
         </div>
         */
-        var currentUser = $(".user-info .username").text();
-        console.log(currentUser);
+        //display messages
+        var currentUser = localStorage.getItem("username");
         $(".chat-messages").empty();
 
-        $(".chat-messages").append(data);
-        $(".chat-messages .message").each((index, element) => {
-            if ($(element).find(".nom").text() === currentUser) {
-                $(element).toggleClass("sender");
+        //process XML
+        $(data).find("message").each(function (index, element) {
+
+            // extrait les elements du XML pour les mettre dans le message
+            var id = $(element).find("id").text();
+            var username = $(element).find("username").text();
+            var avatar = $(element).find("avatar").text();
+            var date = $(element).find("date").text();
+            var text = $(element).find("texte").text();
+            //compose le message
+            var htmlMessage = '<div class="message">';
+            htmlMessage += '<div class="info">';
+            htmlMessage += '<div class="user">';
+            htmlMessage += '<div class="avatar">' + avatar + '</div>';
+            htmlMessage += '<div class="nom">' + username + '</div>';
+            htmlMessage += '</div>';
+            htmlMessage += '<div class="date">' + date + '</div>';
+            htmlMessage += '</div>';
+            htmlMessage += '<div class="text">' + text + '</div>';
+            htmlMessage += '</div>';
+            console.log(htmlMessage);
+            //si le message est envoyé par l'utilisateur, il est afiché autrement.
+            if (username === currentUser) {
+                htmlMessage = $(htmlMessage).toggleClass("sender").prop("outerHTML");
             }
+            //ajoute le message
+            $(".chat-messages").append(htmlMessage);
         });
+
 
 
     }
@@ -182,7 +209,13 @@ class Ctrl {
         alert("Le message n'a pas pu être envoyé");
     }
 
+    disconnect() {
+        this.http.userOut();
+        // Efface les information de session du cache.
+        localStorage.removeItem("username");
+        localStorage.removeItem("avatar");
 
+    }
 
 
 }

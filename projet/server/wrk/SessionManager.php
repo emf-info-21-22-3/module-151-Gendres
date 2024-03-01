@@ -8,7 +8,6 @@ class SessionManager
     }
     static function getSessionInfo()
     {
-        session_start();
         if (isset($_SESSION["isLogged"])) {
             return array(
                 'username' => $_SESSION['username'],
@@ -21,7 +20,7 @@ class SessionManager
     }
     function checkLogin($user, $pass)
     {
-        
+
         $userInfo = $this->readUser($user);
 
         if ($userInfo && password_verify($pass, (string) $userInfo['hash'])) {
@@ -33,7 +32,7 @@ class SessionManager
             } else {
                 $_SESSION['isAdmin'] = false;
             }
-            
+
             $retour = "
             <login>
             <status>true</status>
@@ -53,7 +52,7 @@ class SessionManager
     }
     function createUser($user, $pass)
     {
-        
+
         $connection = WrkDb::getInstance();
 
         $hash = password_hash($pass, CRYPT_SHA256);
@@ -77,12 +76,12 @@ class SessionManager
 
     function disconnectUser()
     {
-        session_start();
+        
         session_destroy();
     }
     public function readUser($user)
     {
-        
+
 
         $connection = WrkDb::getInstance();
         // Using a prepared statement to prevent SQL injection

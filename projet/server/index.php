@@ -5,8 +5,10 @@ require_once("./wrk/MessageManager.php");
 require_once("./obj/Message.php");
 require_once("./wrk/SessionManager.php");
 
-header("Access-Control-Allow-Origin: http://localhost:8081");
+header("Access-Control-Allow-Origin: http://srv-hp.home:8080");
 header("Access-Control-Allow-Credentials: true");
+
+
 session_start();
 if (isset($_SERVER['REQUEST_METHOD'])) {
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -31,9 +33,12 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 
                 // "Retourner la liste des messages de la room $room.<br>";
                 $messageManager = new MessageManager();
-                foreach ($messageManager->get($room) as $message) {
+                $messages = $messageManager->get($room);
+                echo "<messages>";
+                foreach ($messages as $message) {
                     echo $message->__toString();
                 }
+                echo "</messages>";
                 // "Retourner la liste des messages de la room $room.<br>";
 
             } else {

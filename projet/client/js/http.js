@@ -5,7 +5,7 @@
  * @version 1.5 / 27.02.2024
  */
 class Http {
-    BASE_URL = "http://localhost:8080/projet/server/index.php";
+    BASE_URL = "http://srv-hp.home:8080/projet/server/index.php";
 
     userAuth(successCallback, errorCallback, user, pass) {
         $.ajax({
@@ -16,6 +16,9 @@ class Http {
                 user: user,
                 pass: pass,
                 action: "check-user",
+            },
+            xhrFields: {
+                withCredentials: true
             },
             success: successCallback,
             error: errorCallback,
@@ -31,7 +34,10 @@ class Http {
                 user: user,
                 pass: pass
             },
-            success: function(response) {
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (response) {
                 // Parse response as plain text
                 successCallback(response);
             },
@@ -47,6 +53,9 @@ class Http {
             data: {
                 action: "disconnect-user",
             },
+            xhrFields: {
+                withCredentials: true
+            },
             success: successCallback,
             error: errorCallback,
         });
@@ -60,17 +69,23 @@ class Http {
                 texte: texte,
                 room_id: roomId
             },
+            xhrFields: {
+                withCredentials: true
+            },
             success: successCallback,
             error: errorCallback,
         });
     }
-    deleteMessage(messageId) {}
+    deleteMessage(messageId) { }
 
     loadAllRooms(successCallback, errorCallback) {
         $.ajax({
             type: "GET",
             dataType: "html",
             url: this.BASE_URL + "/?rooms",
+            xhrFields: {
+                withCredentials: true
+            },
             success: successCallback,
             error: errorCallback,
         });
@@ -79,8 +94,11 @@ class Http {
     loadRoom(roomId, successCallback, errorCallback) {
         $.ajax({
             type: "GET",
-            dataType: "html",
+            dataType: "xml",
             url: this.BASE_URL + "/?messages=" + roomId,
+            xhrFields: {
+                withCredentials: true
+            },
             success: successCallback,
             error: errorCallback,
         });
