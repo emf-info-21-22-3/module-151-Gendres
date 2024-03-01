@@ -31,10 +31,12 @@ class Ctrl {
                 // Store user information in localStorage
                 var username = $(this).find("username").text();
                 var avatar = username.substr(0, 1);
+                var isAdmin = $(this).find("isAdmin").text();
 
                 // Store user information in localStorage
                 localStorage.setItem("username", username);
                 localStorage.setItem("avatar", avatar.toUpperCase());
+                localStorage.setItem("isAdmin", isAdmin);
 
                 ctrl.vue.loadHTML("chat");
             } else {
@@ -214,9 +216,20 @@ class Ctrl {
         // Efface les information de session du cache.
         localStorage.removeItem("username");
         localStorage.removeItem("avatar");
+        localStorage.removeItem("isAdmin");
 
     }
 
+    autoReloadMessage() {
+        //définit une intervale qui recharge les messages toutes les 5 seconces SI la page de tchat est affichée.
+        setInterval(function () {
+            // Check if the element with class "chat-messages" exists
+            var chatMessages = $(".chat-messages");
+            if (chatMessages.length > 0) {
+                ctrl.loadRoom(localStorage.getItem("currentRoom"));
+            }
+        }, 5000);
+    }
 
 }
 

@@ -38,7 +38,7 @@ class VueCtrl {
             }
         });
     }
-    
+
     loadLogin() {
         $("#login-form").submit(function (event) {
             event.preventDefault();
@@ -111,8 +111,17 @@ class VueCtrl {
             $("#message-input").val("");
             ctrl.sendMessage(texte, 0);
         });
-        //charge les messages
+        $("#message-input").keypress(function (event) {
+            // le code 13 correspond à la touche entrée
+            if (event.which === 13) {
+                var texte = $("#message-input").val();
+                $("#message-input").val("");
+                ctrl.sendMessage(texte, 0);
+            }
+        });
         ctrl.loadRoom(0);
+        ctrl.autoReloadMessage();
+
     }
     loadGuest() {
         $("#load-login").click((event) => {
@@ -120,5 +129,8 @@ class VueCtrl {
         });
         //charge les messages
         ctrl.loadRoom(0);
+        ctrl.autoReloadMessage();
     }
+
+
 }

@@ -55,7 +55,7 @@ class Message
         $userFirstLetter = strtoupper(substr($this->user_id, 0, 1));
         $dateNotUTC = DateTime::createFromFormat('Y-m-d H:i:s', $this->date_sent);
         $dateNotUTC->setTimezone(new DateTimeZone('Europe/Zurich'));
-        $date = $dateNotUTC->format('d-m-Y H:i');
+        $date = $dateNotUTC->format('d-m-y H:i');
         return "
         <message>
             <info>

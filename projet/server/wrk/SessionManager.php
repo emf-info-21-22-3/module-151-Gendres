@@ -27,7 +27,7 @@ class SessionManager
             //si le mot de passe est bon, on ouvre la session.
             $_SESSION['isLogged'] = true;
             $_SESSION['username'] = $userInfo['username'];
-            if ($userInfo['admin'] = 1) {
+            if ($userInfo['admin'] == 1) {
                 $_SESSION['isAdmin'] = true;
             } else {
                 $_SESSION['isAdmin'] = false;
