@@ -1,4 +1,3 @@
-
 <?php
 /**
  * le PHP bon à tout faire
@@ -114,10 +113,18 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                             // Envoyer un message
                             // Forward vers MessageManager.php
 
+                            // test le message avant de le transférer.
+                            // si il est trop long (>160 char) ça passe pas. (oui c'est une référence à la limite historique des SMS)
 
-                            //echo "enregistrer un message avec : texte ($texte), user ($user) et room_id ($room_id) .<br>";
-                            $messageManager = new MessageManager();
-                            echo $messageManager->send($room_id, $texte);
+                            if (strlen($texte) > 160) {
+                                http_response_code(413);
+                                echo '<error>Le texte est trop long. Maximum 160 caractères</error>';
+                            } else {
+                                // echo "enregistrer un message avec : texte ($texte), user ($user) et room_id ($room_id) .<br>";
+                                $messageManager = new MessageManager();
+                                echo $messageManager->send($room_id, $texte);
+                            }
+
 
                         } else {
                             echo 'Paramètre texte, user ou room_id manquant pour un nouveau message<br>';

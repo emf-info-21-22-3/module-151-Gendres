@@ -34,13 +34,17 @@ class Ctrl {
     }
 
     checkLoginSuccess(data, text, jqXHR) {
-        
+
         $(data).find("login").each(function () {
             if ($(this).find("status").text() == "true") {
                 // Store user information in localStorage
                 var username = $(this).find("username").text();
                 var avatar = username.substr(0, 1);
-                var isAdmin = $(this).find("isAdmin").text();
+                //définit si l'utilisateur est admin.
+                var isAdmin = false;
+                if ($(this).find("isAdmin").text() == 1){
+                    isAdmin = true;
+                } 
 
                 // Store user information in localStorage
                 localStorage.setItem("username", username);
@@ -60,6 +64,9 @@ class Ctrl {
         setTimeout(() => {
             $(".user-info .avatar").text(storedAvatar);
             $(".user-info .username").text(storedUsername);
+            if (localStorage.getItem("isAdmin") === "true") {
+                ctrl.loadAdminPage();
+            }
         }, 50);
 
 
@@ -173,7 +180,7 @@ class Ctrl {
             htmlMessage += '</div>';
             htmlMessage += '<div class="text">' + text + '</div>';
             htmlMessage += '</div>';
-            console.log(htmlMessage);
+            
             //si le message est envoyé par l'utilisateur, il est afiché autrement.
             if (username === currentUser) {
                 htmlMessage = $(htmlMessage).toggleClass("sender").prop("outerHTML");
@@ -216,8 +223,42 @@ class Ctrl {
         ctrl.loadRoom(0);
     }
     sendMessageError(data, text, jqXHR) {
-        console.log(text);
-        alert("Le message n'a pas pu être envoyé");
+        if (data.status == 413) {
+            //le message est trop long
+            $("#status").find("p").remove();
+            $("#status").append(
+                "<p style='color:red;'>Le message est trop long. La logueur maximum est de 160 caractères.</p>"
+            );
+            setTimeout(() => {
+                $("#status p").remove();
+            }, 5000);
+        } else if (data.status == 500) {
+            //une erreur c'est produite
+            $("#status").find("p").remove();
+            $("#status").append(
+                "<p style='color:red;'>Petit problème sur le serveur...</p>"
+            );
+            setTimeout(() => {
+                $("#status p").remove();
+            }, 5000);
+        } else if (data.status == 403) {
+            //pas logué
+            $("#status").find("p").remove();
+            $("#status").append(
+                "<p style='color:red;'>Pas autorisé ! Vas te loguer petit chenapan.</p>"
+            );
+            setTimeout(() => {
+                $("#status p").remove();
+            }, 5000);
+        }else {
+            $("#status").find("p").remove();
+            $("#status").append(
+                "<p style='color:red;'>Le serveur ne répond pas...</p>"
+            );
+            setTimeout(() => {
+                $("#status p").remove();
+            }, 5000);
+        }
     }
 
     disconnect() {
@@ -240,6 +281,12 @@ class Ctrl {
         }, 5000);
     }
 
+    loadAdminPage() {
+        $(".user-info .controls").append('<button class="sidebutton" id="admin-btn">Activer Mode Admin</button>');
+        $(".user-info .controls #admin-btn").click(()=>{
+            alert("je suis admin !")
+        })
+    }
 }
 
 // Instantiate the Ctrl class
