@@ -22,13 +22,11 @@ session_start();
 if (isset($_SERVER['REQUEST_METHOD'])) {
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-
             // Requete GET détectée.<br>";
             if (isset($_GET['rooms'])) {
                 $room = $_GET['rooms'];
 
                 // Forward vers RoomManager.php
-
                 //"Retourner la liste des room.<br>";
                 $roomManager = new RoomManager();
                 foreach ($roomManager->getAll() as $room) {
@@ -151,7 +149,8 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 $message_id = $vars['message_id'];
                 // Supprimer un message
                 // Forward vers MessageManager.php
-                echo "supprimer message_id ($message_id).<br>";
+                $messageManager = new MessageManager();
+                echo '<deleteOk>' . $messageManager->delete($message_id) . '</deleteOK>';
 
             } else {
                 echo 'Paramètre message_id manquant<br>';

@@ -4,16 +4,9 @@ require_once("./wrk/WrkDb.php");
 require_once("./wrk/SessionManager.php");
 class MessageManager
 {
-    function __construct()
-    {
-    }
     function get($room_id)
     {
-
-
-
         $connection = WrkDb::getInstance();
-        ;
         $query = $connection->executeQuery("SELECT * FROM t_message WHERE fk_room = ?", array($room_id));
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -22,7 +15,6 @@ class MessageManager
             foreach ($data as $row) {
                 //enleve les Fk et les remplace par la bonne valeur
                 $username = $connection->executeQuery("SELECT * FROM t_user WHERE pk_user = ?", array($row["fk_user"]))->fetch(PDO::FETCH_ASSOC)["username"];
-
                 //$message_id, $texte, $date_sent, $room_id, $user_id
                 $msg = new Message($row["pk_message"], $row["texte"], $row["dateEnvoi"], $row["fk_room"], $username);
                 $retour[] = $msg;
@@ -35,32 +27,37 @@ class MessageManager
     }
     function send($room_id, $message)
     {
-
-
-        $sesion = SessionManager::getSessionInfo();
-
+        $session = SessionManager::getSessionInfo();
         //check session
-        if ($sesion["isLogged"] == true) {
+        if ($session["isLogged"] == true) {
             // user dans la session
-            $user = $sesion["username"];
+            $user = $session["username"];
             http_response_code(200);
             return $this->writeMessage($room_id, $user, $message);
         } else {
             //throw 403
             http_response_code(403);
-
+        }
+    }
+    function delete($message_id)
+    {
+        $session = SessionManager::getSessionInfo();
+        //supprime le message uniquement si l'utilisateur est admin
+        if ($session["isLogged"] == true && $session["admin"] == true) {
+            $connection = WrkDb::getInstance();
+            // Preparation du SQL
+            $sql = "DELETE FROM t_message WHERE pk_message = :PK";
+            $params = array(':PK' => $message_id);
+            
+            $query = $connection->executeQuery($sql, $params);
+            return $query->rowCount();            
+        } else {
+            http_response_code(403);
         }
     }
     private function writeMessage($room_id, $user, $message)
     {
-
-
-        // return $room_id . $user . $message;
-
-
         $connection = WrkDb::getInstance();
-
-
         //définit les champs manquant
         $fk_user = $connection->executeQuery("SELECT * FROM t_user WHERE username = ?", array($user))->fetch(PDO::FETCH_ASSOC)["pk_user"];
         $dateEnvoi = date('Y-m-d H:i:s'); // Format: YYYY-MM-DD HH:MM:SS
@@ -72,9 +69,7 @@ class MessageManager
         $query = $connection->executeQuery($sql, $params);
 
         return $query->rowCount();
-
-
-
     }
+
 }
 

@@ -38,20 +38,6 @@ class Message
 
     public function __toString(): string
     {
-
-        /*
-        <div class="message">
-            <div class="info">
-                <div class="user">
-                    <div class="avatar">A</div>
-                    <div class="nom">admin</div>
-                </div>
-                <div class="date">10/03/23</div>
-            </div>
-            <div class="text">Hey! ça joue ?</div>
-        </div>
-        */
-        //TODO output XML
         $userFirstLetter = strtoupper(substr($this->user_id, 0, 1));
         $dateNotUTC = DateTime::createFromFormat('Y-m-d H:i:s', $this->date_sent);
         $dateNotUTC->setTimezone(new DateTimeZone('Europe/Zurich'));
@@ -69,20 +55,5 @@ class Message
             <texte>$this->texte</texte>
         </message>
         ";
-        /*return "
-        <div class='message'>
-        <div class='info'>
-            <div class='user'>
-                <div class='avatar'>$userFirstLetter</div>
-                <div class='nom'>$this->user_id</div>
-            </div>
-            <div class='date'>$this->date_sent</div>
-        </div>
-        <div class='text'>$this->texte</div>
-    </div>
-        ";*/
-
     }
 }
-
-?>

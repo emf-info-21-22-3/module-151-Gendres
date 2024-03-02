@@ -76,7 +76,20 @@ class Http {
             error: errorCallback,
         });
     }
-    deleteMessage(messageId) { }
+    deleteMessage(messageId, successCallback, errorCallback) {
+        $.ajax({
+            type: "DELETE",
+            url: this.BASE_URL,
+            data: {
+                message_id: messageId
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            success: successCallback,
+            error: errorCallback,
+        });
+    }
 
     loadAllRooms(successCallback, errorCallback) {
         $.ajax({

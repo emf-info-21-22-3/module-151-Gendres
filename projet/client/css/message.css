@@ -85,7 +85,10 @@ body {
     margin-right: 3px;
     line-height: 30px;
 }
-
+.message .info .id {
+    /*Cache les ID des messages*/
+    display: none;
+}
 .message .info .date {
     text-align: center;
 }

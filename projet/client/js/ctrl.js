@@ -19,9 +19,10 @@ class Ctrl {
             this.vue = new VueCtrl();
             this.http = new Http();
             this.codeExecuted = true;
+            this.reloadTimer;
+            this.disconnect();
         }
     }
-
     checkLogin(username, pass) {
         console.log(username + ";" + pass);
 
@@ -32,7 +33,6 @@ class Ctrl {
             pass
         );
     }
-
     checkLoginSuccess(data, text, jqXHR) {
 
         $(data).find("login").each(function () {
@@ -42,14 +42,16 @@ class Ctrl {
                 var avatar = username.substr(0, 1);
                 //définit si l'utilisateur est admin.
                 var isAdmin = false;
-                if ($(this).find("isAdmin").text() == 1){
+
+                if ($(this).find("isAdmin").text() == 1) {
                     isAdmin = true;
-                } 
+                }
 
                 // Store user information in localStorage
                 localStorage.setItem("username", username);
                 localStorage.setItem("avatar", avatar.toUpperCase());
                 localStorage.setItem("isAdmin", isAdmin);
+                localStorage.setItem("adminMode", false);
 
                 ctrl.vue.loadHTML("chat");
             } else {
@@ -139,6 +141,7 @@ class Ctrl {
             }, 5000);
         }
     }
+
     loadRoom(roomId) {
         localStorage.setItem("currentRoom", roomId);
         this.http.loadRoom(roomId, ctrl.loadRoomSuccess, ctrl.loadRoomError);
@@ -172,6 +175,7 @@ class Ctrl {
             //compose le message
             var htmlMessage = '<div class="message">';
             htmlMessage += '<div class="info">';
+            htmlMessage += '<div class="id">' + id + '</div>';
             htmlMessage += '<div class="user">';
             htmlMessage += '<div class="avatar">' + avatar + '</div>';
             htmlMessage += '<div class="nom">' + username + '</div>';
@@ -180,11 +184,26 @@ class Ctrl {
             htmlMessage += '</div>';
             htmlMessage += '<div class="text">' + text + '</div>';
             htmlMessage += '</div>';
-            
+
             //si le message est envoyé par l'utilisateur, il est afiché autrement.
             if (username === currentUser) {
                 htmlMessage = $(htmlMessage).toggleClass("sender").prop("outerHTML");
             }
+
+
+            if (localStorage.getItem("adminMode") == "true") {
+                // Ajoute un gestionnaire d'événement de clic
+                //TODO clic seulement sur le div text et pas le message entier qui est moitié invisible.
+                htmlMessage = $(htmlMessage).click(function () {
+                    var messageId = $(this).find('.id').text();
+
+                    var confirmation = confirm("Voulez-vous vraiment supprimer le message de " + $(this).find('.nom').text() + "?");
+                    if (confirmation) {
+                        ctrl.http.deleteMessage(messageId, ctrl.deleteMessageSuccess, ctrl.deleteMessageError);
+                    }
+                });
+            }
+
             //ajoute le message
             $(".chat-messages").append(htmlMessage);
         });
@@ -224,74 +243,121 @@ class Ctrl {
     }
     sendMessageError(data, text, jqXHR) {
         if (data.status == 413) {
-            //le message est trop long
+            // Le message est trop long
             $("#status").find("p").remove();
             $("#status").append(
-                "<p style='color:red;'>Le message est trop long. La logueur maximum est de 160 caractères.</p>"
+                "<p style='color:red;'>Le message est trop long. La longueur maximale est de 160 caractères.</p>"
             );
-            setTimeout(() => {
-                $("#status p").remove();
-            }, 5000);
         } else if (data.status == 500) {
-            //une erreur c'est produite
+            // Une erreur s'est produite
             $("#status").find("p").remove();
             $("#status").append(
                 "<p style='color:red;'>Petit problème sur le serveur...</p>"
             );
-            setTimeout(() => {
-                $("#status p").remove();
-            }, 5000);
         } else if (data.status == 403) {
-            //pas logué
+            // Pas logué
             $("#status").find("p").remove();
             $("#status").append(
-                "<p style='color:red;'>Pas autorisé ! Vas te loguer petit chenapan.</p>"
+                "<p style='color:red;'>Pas autorisé ! Va te loguer petit chenapan.</p>"
             );
-            setTimeout(() => {
-                $("#status p").remove();
-            }, 5000);
-        }else {
+        } else {
             $("#status").find("p").remove();
             $("#status").append(
                 "<p style='color:red;'>Le serveur ne répond pas...</p>"
             );
-            setTimeout(() => {
-                $("#status p").remove();
-            }, 5000);
         }
+        setTimeout(() => {
+            $("#status p").remove();
+        }, 5000);
+    }
+
+    deleteMessageSuccess() {
+        //TODO passe jamais dans success (comme pour createuser ?)
+        ctrl.loadRoom(localStorage.getItem("currentRoom"));
+
+        $("#status").find("p").remove();
+        $("#status").append(
+            "<p style='color:green;'>Le message a bien été supprimé.</p>"
+        );
+        setTimeout(() => {
+            $("#status p").remove();
+        }, 5000);
+    }
+    deleteMessageError() {
+        $("#status").find("p").remove();
+        $("#status").append(
+            "<p style='color:red;'>Le message n'a pas pu être supprimé...</p>"
+        );
+        setTimeout(() => {
+            $("#status p").remove();
+        }, 5000);
     }
 
     disconnect() {
         this.http.userOut();
         // Efface les information de session du cache.
-        localStorage.removeItem("username");
-        localStorage.removeItem("avatar");
-        localStorage.removeItem("isAdmin");
+        localStorage.clear();
 
     }
 
     autoReloadMessage() {
-        //définit une intervale qui recharge les messages toutes les 5 seconces SI la page de tchat est affichée.
-        setInterval(function () {
-            // Check if the element with class "chat-messages" exists
-            var chatMessages = $(".chat-messages");
-            if (chatMessages.length > 0) {
-                ctrl.loadRoom(localStorage.getItem("currentRoom"));
-            }
-        }, 5000);
+        // Check if the timer is already set
+        if (!ctrl.reloadTimer) {
+            // Set the interval only if the timer is not already running
+            ctrl.reloadTimer = setInterval(function () {
+                // Check if the element with class "chat-messages" exists
+                var chatMessages = $(".chat-messages");
+                if (chatMessages.length > 0) {
+                    ctrl.loadRoom(localStorage.getItem("currentRoom"));
+                }
+            }, 5000);
+        }
     }
 
     loadAdminPage() {
+        //TODO toggle le mode admin
         $(".user-info .controls").append('<button class="sidebutton" id="admin-btn">Activer Mode Admin</button>');
-        $(".user-info .controls #admin-btn").click(()=>{
-            alert("je suis admin !")
-        })
+
+        $(".user-info .controls #admin-btn").click(() => {
+            ctrl.toggleAdminMode();
+        });
     }
+    toggleAdminMode() {
+        if ((localStorage.getItem("adminMode") == "true")) {
+            $("button").animate({
+                'background-color': '#4c8baf',
+                'background-size': '200% 100%',
+            }, 1000);
+            localStorage.setItem("adminMode", false);
+        } else {
+            var confirmation = confirm("Le mode admin permet de supprimer les messages inappropriés en cliquant dessus. Êtes-vous sûr de vouloir continuer ?");
+            if (confirmation) {
+                // User clicked "OK"
+                $("button").animate({
+                    'background-color': '#f86c4d',
+                    'background-size': '200% 100%',
+                }, 1000);
+                localStorage.setItem("adminMode", true);
+
+            } else {
+                // User clicked "Cancel" or closed the dialog
+                $("#status").find("p").remove();
+                $("#status").append(
+                    "<p style='color:red;'>Mode admin non activé.</p>"
+                );
+                setTimeout(() => {
+                    $("#status p").remove();
+                }, 5000);
+            }
+        }
+        ctrl.loadRoom(localStorage.getItem("currentRoom"));
+
+    }
+
 }
 
-// Instantiate the Ctrl class
-const ctrl = new Ctrl();
 
+const ctrl = new Ctrl();
 // Attend la fin du chargement de la page
 $(document).ready(() => {
     ctrl.start();
