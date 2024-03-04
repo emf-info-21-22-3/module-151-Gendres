@@ -4,6 +4,9 @@ require_once("./wrk/WrkDb.php");
 require_once("./wrk/SessionManager.php");
 class MessageManager
 {
+    /**
+     * retourne les message d'une salle
+     */
     function get($room_id)
     {
         $connection = WrkDb::getInstance();
@@ -25,6 +28,9 @@ class MessageManager
             return null;
         }
     }
+    /**
+     * envoie un message si l'utilisateur en a les droits
+     */
     function send($room_id, $message)
     {
         $session = SessionManager::getSessionInfo();
@@ -35,10 +41,13 @@ class MessageManager
             http_response_code(200);
             return $this->writeMessage($room_id, $user, $message);
         } else {
-            //throw 403
+            //pas logué
             http_response_code(403);
         }
     }
+    /**
+     * supprime un message si l'utilisateur en a les droits (admin only)
+     */
     function delete($message_id)
     {
         $session = SessionManager::getSessionInfo();
@@ -53,8 +62,12 @@ class MessageManager
             return $query->rowCount();            
         } else {
             http_response_code(403);
+            return "Unauthorized";
         }
     }
+    /**
+     * écrit un message dans la DB
+     */
     private function writeMessage($room_id, $user, $message)
     {
         $connection = WrkDb::getInstance();

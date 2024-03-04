@@ -2,10 +2,9 @@
 require_once("./wrk/WrkDb.php");
 class SessionManager
 {
-    function __construct()
-    {
-
-    }
+/**
+ * retourne les information de la session actuelle
+ */
     static function getSessionInfo()
     {
         if (isset($_SESSION["isLogged"])) {
@@ -18,6 +17,9 @@ class SessionManager
             return array('username' => "", 'isLogged' => "", 'admin' => "");
         }
     }
+    /**
+     * controle qu'un login est le bon depuis la db
+     */
     function checkLogin($user, $pass)
     {
 
@@ -50,6 +52,9 @@ class SessionManager
         return $retour;
 
     }
+    /**
+     * crée un nouvel utilisateur si le nom n'est pas pris
+     */
     function createUser($user, $pass)
     {
 
@@ -73,12 +78,17 @@ class SessionManager
         }
 
     }
-
+/**
+ * détruit la session
+ */
     function disconnectUser()
     {
         
         session_destroy();
     }
+    /**
+     * lit les infos d'un utilisateur depuis la DB
+     */
     public function readUser($user)
     {
 

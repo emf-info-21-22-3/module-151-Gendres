@@ -3,14 +3,11 @@ require_once("./obj/Room.php");
 require_once("./wrk/WrkDb.php");
 class RoomManager
 {
-    function __construct()
-    {
-    }
+    /**
+     * retourne la liste de toute les salles de chat.
+     */
     function getAll()
     {
-
-
-
         $connection = WrkDb::getInstance();
         // Using a prepared statement to prevent SQL injection
         $query = $connection->executeQuery("SELECT * FROM t_room");
@@ -29,8 +26,11 @@ class RoomManager
             return null; // Return null if user not found
         }
     }
+    /**
+     * permet de créer une nouvelle salle
+     */
     function create($roomId)
     {
-
+        //TODO
     }
 }

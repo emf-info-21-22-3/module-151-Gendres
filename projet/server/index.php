@@ -14,7 +14,7 @@ require_once("./wrk/MessageManager.php");
 require_once("./obj/Message.php");
 require_once("./wrk/SessionManager.php");
 
-header("Access-Control-Allow-Origin: http://srv-hp.home:8080");
+header("Access-Control-Allow-Origin: http://127.0.0.1:8080");
 header("Access-Control-Allow-Credentials: true");
 
 
@@ -29,10 +29,12 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 // Forward vers RoomManager.php
                 //"Retourner la liste des room.<br>";
                 $roomManager = new RoomManager();
+                echo '<rooms>';
                 foreach ($roomManager->getAll() as $room) {
                     echo $room->__toString();
                 }
-
+                echo '</rooms>';
+                
             } else if (isset($_GET['messages'])) {
                 $room = $_GET['messages'];
 
@@ -49,7 +51,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 // "Retourner la liste des messages de la room $room.<br>";
 
             } else {
-                echo 'Paramètre room manquant<br>';
+                echo '<error>Paramètre room manquant</error><br>';
             }
             break;
 
@@ -74,8 +76,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                             echo $sessionManager->checkLogin($user, $pass);
 
                         } else {
-                            //todo XML
-                            echo 'Paramètre user ou pass manquant<br>';
+                            echo '<error>Paramètre user ou pass manquant</error><br>';
                         }
                         break;
                     case 'create-user':
@@ -92,7 +93,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 
 
                         } else {
-                            echo 'Paramètre user ou pass manquant pour créer un nouvel utilisateur<br>';
+                            echo '<error>Paramètre user ou pass manquant pour créer un nouvel utilisateur</error><br>';
                         }
                         break;
                     case 'disconnect-user':
@@ -116,7 +117,9 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 
                             if (strlen($texte) > 160) {
                                 http_response_code(413);
-                                echo '<error>Le texte est trop long. Maximum 160 caractères</error>';
+                                echo '<error>Le texte est trop long. Maximum 160 caractères. Longueur du message : ' . strlen($texte) . '</error>';
+                            } elseif (!$texte || !trim($texte)) {
+                                echo '<error>Le texte est vide</error>';
                             } else {
                                 // echo "enregistrer un message avec : texte ($texte), user ($user) et room_id ($room_id) .<br>";
                                 $messageManager = new MessageManager();
@@ -125,17 +128,19 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 
 
                         } else {
-                            echo 'Paramètre texte, user ou room_id manquant pour un nouveau message<br>';
+                            echo '<error>Paramètre texte, user ou room_id manquant pour un nouveau message</error><br>';
                         }
                         break;
 
 
-
+                    case 'create-room':
+                        http_response_code(501);
+                        break;
                     default:
-                        echo 'Action non reconnue<br>';
+                        echo '<error>Action non reconnue</error><br>';
                 }
             } else {
-                echo 'Paramètre action manquant<br>';
+                echo '<error>Paramètre action manquant</error><br>';
 
             }
             break;
@@ -153,11 +158,11 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 echo '<deleteOk>' . $messageManager->delete($message_id) . '</deleteOK>';
 
             } else {
-                echo 'Paramètre message_id manquant<br>';
+                echo '<error>Paramètre message_id manquant</error><br>';
             }
             break;
         default:
-            echo "Méthode de requête non reconnue<br>";
+            echo "<error>Méthode de requête non reconnue</error><br>";
             http_response_code(400);
             break;
     }
