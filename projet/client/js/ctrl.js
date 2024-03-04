@@ -192,12 +192,17 @@ class Ctrl {
                     });
 
                     //ajoute le message
-                    $(".chat-messages").append(htmlMessage);
+
+                    $(".chat-messages").append(htmlMessage).animate({
+                        'display': 'initial'
+                    }, 1000);;
                 });
 
                 //scroll à la fin des messages.
                 var chatMessages = $('.chat-messages');
                 chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
+                //actualise les salles de chat
+                ctrl.getRoomList();
             }
         }
         /**
@@ -288,7 +293,7 @@ class Ctrl {
          * @param {*} text 
          * @param {*} jqXHR 
          */
-    deleteMessageSuccess() {
+    deleteMessageSuccess(data, text, jqXHR) {
             ctrl.loadRoom(localStorage.getItem("currentRoom"));
             ctrl.vue.afficheStatut("Le message a bien été supprimé.", "green");
 
@@ -299,21 +304,121 @@ class Ctrl {
          * @param {*} text 
          * @param {*} jqXHR 
          */
-    deleteMessageError() {
-            ctrl.vue.afficheStatut("Le message n'a pas pu être supprimé...", "red");
+    deleteMessageError(data, text, jqXHR) {
+        ctrl.vue.afficheStatut("Le message n'a pas pu être supprimé...", "red");
+    }
+
+    getRoomList() {
+        ctrl.http.loadAllRooms(ctrl.getRoomListSuccess, ctrl.getRoomListError);
+    }
+    getRoomListSuccess(data, text, jqXHR) {
+        $(".room-list").empty();
+
+        //traite XML
+        $(data).find("room").each(function(index, element) {
+
+            // extrait les elements du XML pour les mettre dans le message
+            var id = $(element).find("id").text();
+            var room_name = $(element).find("name").text();
+            //compose le message
+            var htmlRoom = '<div class="room">' + room_name + '<div class="id">' + id + '</div></div>';
+
+            //TODO ajouter onclic pour admin delete
+            htmlRoom = $(htmlRoom).click(function() {
+                ctrl.deleteRoom(this);
+            });
+
+            if (id == localStorage.getItem("currentRoom")) {
+                htmlRoom = $(htmlRoom).css({
+                    'background-color': '#c6f8e1',
+                    'background-size': '200% 100%',
+                });
+            }
+            // Ajoute un gestionnaire de clic
+            htmlRoom = $(htmlRoom).click(function() {
+                localStorage.removeItem("messageCount");
+                ctrl.vue.afficheStatut("Vous avez rejoint la salle " + room_name, "green");
+                ctrl.loadRoom(id);
+            });
+            //ajoute le message
+            $(".room-list").append(htmlRoom);
+        });
+    }
+    getRoomListError(data, text, jqXHR) {
+        ctrl.vue.afficheStatut("impossible de récuperer la liste des salles...", "red");
+    }
+
+    createRoom(room_name) {
+        ctrl.http.roomNew(room_name, ctrl.createRoomSuccess, ctrl.createRoomError);
+    }
+    createRoomSuccess(data, text, jqXHR) {
+        ctrl.getRoomList()
+        ctrl.vue.afficheStatut("la salle à bien été créée", "green");
+    }
+    createRoomError(data, text, jqXHR) {
+        if (data.status == 409) {
+            // Le nom est déjà pris
+            ctrl.vue.afficheStatut("Le nom de la salle est déjà pris...", "red");
+
+        } else if (data.status == 500) {
+            // Une erreur s'est produite
+            ctrl.vue.afficheStatut("Petit problème sur le serveur...", "red");
+
+        } else if (data.status == 403) {
+            // Pas logué
+            ctrl.vue.afficheStatut("Pas autorisé ! Va te loguer petit chenapan.", "red");
+        } else {
+            ctrl.vue.afficheStatut("Le serveur ne répond pas...", "red");
+        }
+    }
+
+    /**
+     * supprime une room (admin only)
+     * @param {div} message 
+     */
+    deleteRoom(room) {
+            if (localStorage.getItem("adminMode") == "true") {
+                var roomId = $(room).find('.id').text();
+                var confirmation = confirm("Voulez-vous vraiment supprimer la room " + $(room).text() + "?");
+                if (confirmation) {
+                    ctrl.http.deleteRoom(roomId, ctrl.deleteRoomSuccess, ctrl.deleteRoomError);
+                }
+            }
         }
         /**
-         * déconnecte proprement l''utilisateur actuel
+         * successcallback de deleteroom
+         * @param {*} data 
+         * @param {*} text 
+         * @param {*} jqXHR 
          */
-    disconnect() {
-            this.http.userOut();
-            // Efface les information de session du cache.
-            localStorage.clear();
+    deleteRoomSuccess(data, text, jqXHR) {
+            ctrl.loadRoom(0);
+            ctrl.vue.afficheStatut("La room a bien été supprimé.", "green");
 
         }
         /**
-         * définit un timer pour rafraichir les messages.
+         * errorcallback de deleteroom
+         * @param {*} data 
+         * @param {*} text 
+         * @param {*} jqXHR 
          */
+    deleteRoomError(data, text, jqXHR) {
+        ctrl.vue.afficheStatut("La room n'a pas pu être supprimée. Assurez-vous qu'elle ne contient aucun message et réessayez.", "red");
+    }
+
+    /**
+     * déconnecte proprement l''utilisateur actuel
+     */
+    disconnect() {
+        this.http.userOut();
+        // Efface les information de session du cache.
+        localStorage.clear();
+    }
+
+
+    /**
+     * définit un timer pour rafraichir les messages.
+     */
     autoReloadMessage() {
 
             localStorage.setItem("messageCount", 0);
@@ -325,6 +430,7 @@ class Ctrl {
                     var chatMessages = $(".chat-messages");
                     if (chatMessages.length > 0) {
                         ctrl.loadRoom(localStorage.getItem("currentRoom"));
+                        //ctrl.getRoomList();
 
                     }
                 }, 5000); //actualise toutes les 5 secondes
@@ -352,7 +458,7 @@ class Ctrl {
             localStorage.setItem("adminMode", false);
             $("#admin-btn").text("Activer le mode Admin");
         } else {
-            var confirmation = confirm("Le mode admin permet de supprimer les messages inappropriés en cliquant dessus. Êtes-vous sûr de vouloir continuer ?");
+            var confirmation = confirm("Le mode admin permet de supprimer les messages et les rooms inappropriés en cliquant dessus. Êtes-vous sûr de vouloir continuer ?");
             if (confirmation) {
                 // User clicked "OK"
                 $("button").animate({

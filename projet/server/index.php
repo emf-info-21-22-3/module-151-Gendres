@@ -34,7 +34,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                     echo $room->__toString();
                 }
                 echo '</rooms>';
-                
+
             } else if (isset($_GET['messages'])) {
                 $room = $_GET['messages'];
 
@@ -134,7 +134,24 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 
 
                     case 'create-room':
-                        http_response_code(501);
+                        parse_str(file_get_contents("php://input"), $vars);
+                        if (isset($vars['room_name'])) {
+                            $roomName = $vars['room_name'];
+
+                            if (strlen($roomName) > 20) {
+                                http_response_code(413);
+                                echo '<error>Le nom est trop long. Maximum 20 caractères. Longueur du nom : ' . strlen($texte) . '</error>';
+                            } elseif (!$roomName || !trim($roomName)) {
+                                echo '<error>Le nom est vide</error>';
+                            } else {
+                                // Forward vers RoomManager.php
+                                //"crée une nouvelle room.<br>";
+                                $roomManager = new RoomManager();
+                                echo '<createOk>' . $roomManager->create($roomName) . '</createOk>';
+                            }
+
+
+                        }
                         break;
                     default:
                         echo '<error>Action non reconnue</error><br>';
@@ -156,6 +173,13 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
                 // Forward vers MessageManager.php
                 $messageManager = new MessageManager();
                 echo '<deleteOk>' . $messageManager->delete($message_id) . '</deleteOK>';
+
+            } elseif (isset($vars['room_id'])) {
+                $roomName = $vars['room_id'];
+                // Supprimer une room
+                // Forward vers RoomManager.php
+                $roomManager = new RoomManager();
+                echo '<deleteOk>' . $roomManager->delete($roomName) . '</deleteOK>';
 
             } else {
                 echo '<error>Paramètre message_id manquant</error><br>';
