@@ -8,7 +8,14 @@ class MessageManager
      * retourne les message d'une salle
      */
     function get($room_id)
-    {
+    {   
+        //TODO seule la première salle est accèssible sans être logué
+        if ($room_id != 0){
+            if (SessionManager::getSessionInfo()["isLogged"] != true){
+                http_response_code(403);
+                return null;
+            }
+        }
         $connection = WrkDb::getInstance();
         $query = $connection->executeQuery("SELECT * FROM t_message WHERE fk_room = ?", array($room_id));
         $data = $query->fetchAll(PDO::FETCH_ASSOC);

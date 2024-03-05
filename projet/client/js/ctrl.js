@@ -22,6 +22,7 @@ class Ctrl {
       this.http = new Http();
       this.codeExecuted = true;
       this.reloadTimer;
+      //si l'utilisateur était logué, le chat est chargé directment.
       this.http.getSessionInfo(ctrl.checkLoginSuccess, null);
     }
   }
@@ -359,10 +360,7 @@ class Ctrl {
         // Ajoute un gestionnaire de clic
         htmlRoom = $(htmlRoom).click(function () {
           localStorage.removeItem("messageCount");
-          ctrl.vue.afficheStatut(
-            "Vous avez rejoint la salle " + room_name,
-            "green"
-          );
+          ctrl.vue.afficheStatut("Vous avez rejoint " + room_name, "green");
           ctrl.loadRoom(id);
         });
         //ajoute le message
@@ -390,6 +388,9 @@ class Ctrl {
     } else if (data.status == 500) {
       // Une erreur s'est produite
       ctrl.vue.afficheStatut("Petit problème sur le serveur...", "red");
+    } else if (data.status == 413) {
+      // LE nom est trop long
+      ctrl.vue.afficheStatut("le nom de la salle est trop long. Maximum 20 caractères", "red");
     } else if (data.status == 403) {
       // Pas logué
       ctrl.vue.afficheStatut(
@@ -437,10 +438,20 @@ class Ctrl {
    * @param {*} jqXHR
    */
   deleteRoomError(data, text, jqXHR) {
-    ctrl.vue.afficheStatut(
-      "La room n'a pas pu être supprimée. Assurez-vous qu'elle ne contient aucun message et réessayez.",
-      "red"
-    );
+    if (data.status == 403) {
+      // Pas logué
+      ctrl.vue.afficheStatut(
+        "Pas autorisé ! Va te loguer petit chenapan.",
+        "red"
+      );
+    } else if (data.status == 500) {
+      ctrl.vue.afficheStatut(
+        "La room n'a pas pu être supprimée. Assurez-vous qu'elle ne contient aucun message et réessayez.",
+        "red"
+      );
+    } else {
+      ctrl.vue.afficheStatut("Le serveur ne répond pas...", "red");
+    }
   }
 
   /**

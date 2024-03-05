@@ -14,7 +14,7 @@ require_once("./wrk/MessageManager.php");
 require_once("./obj/Message.php");
 require_once("./wrk/SessionManager.php");
 
-header("Access-Control-Allow-Origin: http://127.0.0.1:8080");
+header("Access-Control-Allow-Origin: https://151.gendres.emf-informatique.ch");
 header("Access-Control-Allow-Credentials: true");
 
 
@@ -160,7 +160,7 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 
                             if (strlen($roomName) > 20) {
                                 http_response_code(413);
-                                echo '<error>Le nom est trop long. Maximum 20 caractères. Longueur du nom : ' . strlen($texte) . '</error>';
+                                echo '<error>Le nom est trop long. Maximum 20 caractères. Longueur du nom : ' . strlen($roomName) . '</error>';
                             } elseif (!$roomName || !trim($roomName)) {
                                 echo '<error>Le nom est vide</error>';
                             } else {

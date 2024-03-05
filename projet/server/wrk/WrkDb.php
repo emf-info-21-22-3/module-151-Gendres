@@ -17,7 +17,7 @@ class WrkDb
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             // Log the error and terminate gracefully
-            error_log("Erreur de connexion à la base de données: " . $e->getMessage());
+            //error_log("Erreur de connexion à la base de données: " . $e->getMessage());
             http_response_code(500);
             die("Erreur de connexion à la base de données. Veuillez contacter l'administrateur. " . $e->getMessage());
         }
@@ -45,7 +45,7 @@ class WrkDb
             return $stmt;
         } catch (PDOException $e) {
             http_response_code(500);
-            error_log("Erreur lors de l'exécution de la requête: " . $e->getMessage());
+            //error_log("Erreur lors de l'exécution de la requête: " . $e->getMessage());
             //ne tue pas complétement l'execution en cas de problèmes. 
             //die("Erreur lors de l'exécution de la requête: " . $e->getMessage());
             return null;
