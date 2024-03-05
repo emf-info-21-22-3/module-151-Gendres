@@ -10,7 +10,18 @@ Durant ce module 151, nous allons créer une application web client-serveur en P
 Il y aura une chatroom principale et éventuellement d’autres chatrooms
 Plus d'information dans le [RP](/documentation/151_RP_GENDRE.pdf).
 
-### Arborescence
+# Accès
+Le site est hébergé sur [le domaine de l'école](https://151.gendres.emf-informatique.ch/). Voici quelques logins que vous pouvez essayer pour profiter de toutes les fonctionnalités (n'hésitez à créer votre compte !)
+
+| Login   | Mot de passe |
+| ------- | ------------ |
+| admin   | admin        |
+| gendres | Pa$$w0rd     |
+| qwe     | qwe          |
+
+---
+
+# Arborescence
 
 - Les exercices sont effectués dans [exercices](/exercices/)
 - La documentation et les fichiers de configuration se trouvent dans [documentation](/documentation/).
@@ -57,19 +68,6 @@ Plus d'information dans le [RP](/documentation/151_RP_GENDRE.pdf).
 ```
 
 ---
-
-# Accès
-
-Le site est hébergé sur [le domaine de l'école](https://151.gendres.emf-informatique.ch/). Voici quelques logins que vous pouvez essayer pour profiter de toutes les fonctionnalités (n'hésitez à créer votre compte !)
-
-| Login   | Mot de passe |
-| ------- | ------------ |
-| admin   | admin        |
-| gendres | Pa$$w0rd     |
-| qwe     | qwe          |
-
----
-
 # Screenshots du site web
 
 ## Ecran de Login
