@@ -23,7 +23,27 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
             // Requete GET détectée.<br>";
-            if (isset($_GET['rooms'])) {
+            if (isset($_GET['session_info'])) {
+
+                $session = SessionManager::getSessionInfo();
+                //check session
+                if ($session["isLogged"] == true) {
+                    $retour = "
+                    <login>
+                    <status>true</status>
+                    <isAdmin>$session[admin]</isAdmin>
+                    <username>$session[username]</username>
+                    </login>";
+
+                } else {
+                    $retour = "
+                    <login>
+                    <status>false</status>
+                    </login>";
+                }
+                echo $retour;
+
+            } elseif (isset($_GET['rooms'])) {
                 $room = $_GET['rooms'];
 
                 // Forward vers RoomManager.php

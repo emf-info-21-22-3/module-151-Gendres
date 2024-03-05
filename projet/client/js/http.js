@@ -6,6 +6,19 @@
  */
 class Http {
   BASE_URL = "http://127.0.0.1:8080/projet/server/index.php";
+  
+  getSessionInfo(successCallback, errorCallback) {
+    $.ajax({
+      type: "GET",
+      dataType: "xml",
+      url: this.BASE_URL + "/?session_info",
+      xhrFields: {
+        withCredentials: true,
+      },
+      success: successCallback,
+      error: errorCallback,
+    });
+  }
   /**
    * authentifie un utilisateur depuis le serveur.
    * @param {function} successCallback

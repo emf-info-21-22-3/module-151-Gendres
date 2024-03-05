@@ -17,14 +17,12 @@ class Ctrl {
    * executer au chargement
    */
   start() {
-    //TODO si la session est déjà loguée, il faut aller sur la page de chat et pas celle de login
     if (!this.codeExecuted) {
       this.vue = new VueCtrl();
       this.http = new Http();
       this.codeExecuted = true;
       this.reloadTimer;
-
-      this.disconnect();
+      this.http.getSessionInfo(ctrl.checkLoginSuccess, null);
     }
   }
   /**
@@ -69,7 +67,7 @@ class Ctrl {
 
           ctrl.vue.loadHTML("chat");
         } else {
-          ctrl.vue.afficheStatut("Login erroné", "red");
+          ctrl.http.disconnect();
         }
       });
 
