@@ -155,4 +155,43 @@ class Http {
             error: errorCallback,
         });
     }
+    roomNew(room_name, successCallback, errorCallback) {
+            $.ajax({
+                type: "POST",
+                dataType: "xml",
+                url: this.BASE_URL,
+                data: {
+                    action: "create-room",
+                    room_name: room_name
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(response) {
+                    // Parse response as plain text
+                    successCallback(response);
+                },
+                error: errorCallback,
+            });
+        }
+        /**
+         * supprime un message
+         * @param {*} messageId 
+         * @param {*} successCallback 
+         * @param {*} errorCallback 
+         */
+    deleteRoom(roomId, successCallback, errorCallback) {
+        $.ajax({
+            type: "DELETE",
+            url: this.BASE_URL,
+            data: {
+                room_id: roomId
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            success: successCallback,
+            error: errorCallback,
+        });
+    }
 }

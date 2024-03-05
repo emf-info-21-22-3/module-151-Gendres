@@ -52,6 +52,23 @@ class VueCtrl {
                         ctrl.disconnect();
                         this.loadHTML("login");
                     });
+                } else if (view = "rooms") {
+                    //met un lisnener pour creer des rooms
+                    $("#newRoomBtn").click(function(event) {
+                        var room_name = $("#room-name").val();
+                        $("#room-name").val("");
+                        ctrl.createRoom(room_name);
+                    });
+                    $("#room-name").keypress(function(event) {
+                        // le code 13 correspond à la touche entrée
+                        if (event.which === 13) {
+                            var room_name = $("#room-name").val();
+                            $("#room-name").val("");
+                            ctrl.createRoom(room_name);
+
+
+                        }
+                    });
                 }
             });
         }
@@ -128,7 +145,7 @@ class VueCtrl {
     loadChat() {
             this.loadSideBar("userInfo", "right");
             //TODO les rooms sont pas encore implémentées
-            //this.loadSideBar("rooms", "left");
+            this.loadSideBar("rooms", "left");
 
             $("#send-btn").click((event) => {
                 var texte = $("#message-input").val();

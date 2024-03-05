@@ -74,7 +74,7 @@ class MessageManager
         //définit les champs manquant
         $fk_user = $connection->executeQuery("SELECT * FROM t_user WHERE username = ?", array($user))->fetch(PDO::FETCH_ASSOC)["pk_user"];
         $dateEnvoi = date('Y-m-d H:i:s'); // Format: YYYY-MM-DD HH:MM:SS
-
+        $message = htmlspecialchars ($message, ENT_QUOTES, 'UTF-8');
         // Preparation du SQL
         $sql = "INSERT INTO t_message (texte, dateEnvoi, fk_user, fk_room) VALUES (:texte, :dateEnvoi, :fk_user, :fk_room)";
         $params = array(':texte' => $message, ':dateEnvoi' => $dateEnvoi, ':fk_user' => $fk_user, ':fk_room' => $room_id);
