@@ -19,6 +19,6 @@ class Room
     }
     public function __toString(): string
     {
-        return '<room><name>'.$this->getRoomName() . "</name><id>" . $this->getRoomId() . "</id></room>";
+        return '<room><name>' . $this->getRoomName() . "</name><id>" . $this->getRoomId() . "</id></room>";
     }
 }

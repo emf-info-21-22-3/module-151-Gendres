@@ -2,9 +2,9 @@
 require_once("./wrk/WrkDb.php");
 class SessionManager
 {
-/**
- * retourne les information de la session actuelle
- */
+    /**
+     * retourne les information de la session actuelle
+     */
     static function getSessionInfo()
     {
         if (isset($_SESSION["isLogged"])) {
@@ -53,7 +53,7 @@ class SessionManager
 
     }
     /**
-     * crée un nouvel utilisateur si le nom n'est pas pris
+     * crée un nouvel utilisateur si le nom n'est pas déjà pris
      */
     function createUser($user, $pass)
     {
@@ -78,12 +78,11 @@ class SessionManager
         }
 
     }
-/**
- * détruit la session
- */
+    /**
+     * détruit la session
+     */
     function disconnectUser()
     {
-        
         session_destroy();
     }
     /**
@@ -91,8 +90,6 @@ class SessionManager
      */
     public function readUser($user)
     {
-
-
         $connection = WrkDb::getInstance();
         // Using a prepared statement to prevent SQL injection
         $query = $connection->executeQuery("SELECT * FROM t_user WHERE username = ? LIMIT 1", array($user));

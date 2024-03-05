@@ -1,32 +1,5 @@
-||||||SERVEUR||||||
-
-===CTRL===
-index.php
-
-===WRK===
-Wrk.php
-MessageManager.php
-RoomManager.php
-SessionManager.php
-WrkDb.php
-
-===BEANS===
-Message.php
-Room.php
-
-||||||CLIENT||||||
-
-===VUE===
-index.html
-main.css
-
-===CTRL===
-Ctrl.js
-
-===WRK===
-Http.js
-
-
 ===TODO ===
-heure des message pas en UTC
-mettre les import en haut
+CSS pour natel
+autolog la session en fonction du localstorage
+delete message  clic seulement sur message seulement (pas div entier)
+

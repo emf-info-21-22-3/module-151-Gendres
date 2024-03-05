@@ -1,165 +1,164 @@
 :root {
-    --body-bg: #f2f2f2;
-    /* Light gray background */
-    --accent-main: #128c7e;
-    /* Teal green as the main accent */
-    --accent-light: #4c8baf;
-    /* Green accent */
-    --bg-color: #fff;
-    /* White background */
-    --message-bg: #e5e5ea;
-    /* Light gray for messages */
-    --mymessage-bg: #c6f8e1;
-    /* Light green for your messages */
-    --avatar-bg: #0f4980;
-    /* Dark teal green for avatars */
-    --info-bg: #ababb3;
-    /* Grayish background for info */
-    /* Additional green to blue shades for a cohesive aesthetic */
-    --green1: #8bc34a;
-    --green2: #689f38;
-    --blue1: #0077a7;
-    --blue2: #004165;
-    --blue3: #82a6b1;
-    --blue4: #a0d8eb;
+  --body-bg: #f2f2f2;
+  /* Light gray background */
+  --accent-main: #128c7e;
+  /* Teal green as the main accent */
+  --accent-light: #4c8baf;
+  /* Green accent */
+  --bg-color: #fff;
+  /* White background */
+  --message-bg: #e5e5ea;
+  /* Light gray for messages */
+  --mymessage-bg: #c6f8e1;
+  /* Light green for your messages */
+  --avatar-bg: #0f4980;
+  /* Dark teal green for avatars */
+  --info-bg: #ababb3;
+  /* Grayish background for info */
+  /* Additional green to blue shades for a cohesive aesthetic */
+  --green1: #8bc34a;
+  --green2: #689f38;
+  --blue1: #0077a7;
+  --blue2: #004165;
+  --blue3: #82a6b1;
+  --blue4: #a0d8eb;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: var(--body-bg);
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--body-bg);
+  margin: 0;
+  padding: 0;
 }
-
 
 /*TODO mettre le chat input dans la page sans scroller*/
 
 .chat-container {
-    height: inherit;
-    max-width: 1200px;
-    margin: 20px auto;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: var(--bg-color);
-    display: flex;
-    flex-direction: column;
-    /* Ensure children stack vertically */
+  height: inherit;
+  max-width: 1200px;
+  margin: 20px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  /* Ensure children stack vertically */
 }
 
 .chat-header {
-    background-color: var(--accent-main);
-    color: #fff;
-    padding: 10px;
-    text-align: center;
+  background-color: var(--accent-main);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
 }
 
 .chat-messages {
-    flex: 1;
-    /* Grow to fill remaining space */
-    overflow-y: auto;
-    /* Enable vertical scroll */
-    padding: 10px;
+  flex: 1;
+  /* Grow to fill remaining space */
+  overflow-y: auto;
+  /* Enable vertical scroll */
+  padding: 10px;
 }
 
 .message {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin-bottom: 10px;
-    overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .message .text {
-    float: left;
-    background-color: var(--message-bg);
-    padding: 10px;
-    border-radius: 10px;
-    clear: both;
+  float: left;
+  background-color: var(--message-bg);
+  padding: 10px;
+  border-radius: 10px;
+  clear: both;
 }
 
 .message .info {
-    width: 120px;
-    display: flex;
-    flex-direction: column;
-    margin-right: 3px;
-    line-height: 30px;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 3px;
+  line-height: 30px;
 }
 .message .info .id {
-    /*Cache les ID des messages*/
-    display: none;
+  /*Cache les ID des messages*/
+  display: none;
 }
 .message .info .date {
-    text-align: center;
+  text-align: center;
 }
 
 .message .info .user {
-    display: flex;
-    flex-direction: row;
-    background-color: var(--blue4);
-    border-radius: 20px;
-    height: 30px;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--blue4);
+  border-radius: 20px;
+  height: 30px;
 }
 
 .message .info .user .nom {
-    flex: 1;
-    margin: 3px;
-    text-align: center;
+  flex: 1;
+  margin: 3px;
+  text-align: center;
 }
 
 .message .info .user .avatar {
-    background-color: var(--avatar-bg);
-    color: #e5e5ea;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    text-align: center;
+  background-color: var(--avatar-bg);
+  color: #e5e5ea;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
 }
 
 .message.sender {
-    display: flex;
-    flex-direction: row-reverse;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .message.sender .text {
-    background-color: var(--mymessage-bg);
-    float: right;
+  background-color: var(--mymessage-bg);
+  float: right;
 }
 
 .message.sender .info .date {
-    text-align: center;
+  text-align: center;
 }
 
 .message.sender .info .user {
-    display: flex;
-    flex-direction: row-reverse;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .chat-input {
-    height: 70px;
-    padding: 10px;
-    background-color: var(--bg-color);
-    border-top: 1px solid #ddd;
-    display: flex;
-    align-items: center;
+  height: 70px;
+  padding: 10px;
+  background-color: var(--bg-color);
+  border-top: 1px solid #ddd;
+  display: flex;
+  align-items: center;
 }
 
 .chat-input input[type="text"] {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    border-radius: 20px;
-    outline: none;
-    background-color: var(--body-bg);
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  background-color: var(--body-bg);
 }
 
 .chat-input button {
-    width: 60px;
-    background-color: var(--accent-light);
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    margin-left: 10px;
-    cursor: pointer;
+  width: 60px;
+  background-color: var(--accent-light);
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  margin-left: 10px;
+  cursor: pointer;
 }

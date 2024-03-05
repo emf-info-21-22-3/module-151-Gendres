@@ -57,9 +57,13 @@ class MessageManager
             // Preparation du SQL
             $sql = "DELETE FROM t_message WHERE pk_message = :PK";
             $params = array(':PK' => $message_id);
-            
+
             $query = $connection->executeQuery($sql, $params);
-            return $query->rowCount();            
+            if ($query != null) {
+                return $query->rowCount();
+            } else {
+                return 0;
+            }
         } else {
             http_response_code(403);
             return "Unauthorized";
@@ -74,14 +78,18 @@ class MessageManager
         //définit les champs manquant
         $fk_user = $connection->executeQuery("SELECT * FROM t_user WHERE username = ?", array($user))->fetch(PDO::FETCH_ASSOC)["pk_user"];
         $dateEnvoi = date('Y-m-d H:i:s'); // Format: YYYY-MM-DD HH:MM:SS
-        $message = htmlspecialchars ($message, ENT_QUOTES, 'UTF-8');
+        $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
         // Preparation du SQL
         $sql = "INSERT INTO t_message (texte, dateEnvoi, fk_user, fk_room) VALUES (:texte, :dateEnvoi, :fk_user, :fk_room)";
         $params = array(':texte' => $message, ':dateEnvoi' => $dateEnvoi, ':fk_user' => $fk_user, ':fk_room' => $room_id);
 
         $query = $connection->executeQuery($sql, $params);
 
-        return $query->rowCount();
+        if ($query != null) {
+            return $query->rowCount();
+        } else {
+            return 0;
+        }
     }
 
 }

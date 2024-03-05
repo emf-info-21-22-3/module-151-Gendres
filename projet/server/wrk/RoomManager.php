@@ -23,7 +23,7 @@ class RoomManager
             }
             return $retour;
         } else {
-            return null; // Return null if user not found
+            return null; // Return null if nothing found
         }
     }
     /**
@@ -55,6 +55,7 @@ class RoomManager
 
     /**
      * supprime une room si l'utilisateur en a les droits (admin only)
+     * crée une erreur si la salle n'est pas vide.
      */
     function delete($room_id)
     {
@@ -67,7 +68,11 @@ class RoomManager
             $params = array(':PK' => $room_id);
 
             $query = $connection->executeQuery($sql, $params);
-            return $query->rowCount();
+            if ($query != null) {
+                return $query->rowCount();
+            } else {
+                return 0;
+            }
         } else {
             http_response_code(403);
             return "Unauthorized";

@@ -1,67 +1,66 @@
 :root {
-    --body-bg: #f2f2f2; /* Light gray background */
-    --accent-main: #128c7e; /* Teal green as the main accent */
-    --accent-light: #4c8baf; /* Green accent */
-    --bg-color: #fff; /* White background */
+  --body-bg: #f2f2f2; /* Light gray background */
+  --accent-main: #128c7e; /* Teal green as the main accent */
+  --accent-light: #4c8baf; /* Green accent */
+  --bg-color: #fff; /* White background */
 }
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: var(--body-bg); /* Light gray background */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--body-bg); /* Light gray background */
 }
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .login-box {
-    background-color: var(--bg-color); /* White background */
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+  background-color: var(--bg-color); /* White background */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .logo {
-    width: 100px;
-    margin-bottom: 20px;
+  width: 100px;
+  margin-bottom: 20px;
 }
 
 .input-field {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .login-btn {
-    margin: 3px;
-    width: 100%;
-    padding: 10px;
-    background-color: var(--accent-main); /* Teal green as the main accent */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  margin: 3px;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--accent-main); /* Teal green as the main accent */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .login-btn:hover {
-    background-color: var(--accent-light); /* Light green accent on hover */
+  background-color: var(--accent-light); /* Light green accent on hover */
 }
 
 .forgot-password {
-    color: #007bff; /* Original color */
-    text-decoration: none;
+  color: #007bff; /* Original color */
+  text-decoration: none;
 }
 
 .forgot-password:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
-

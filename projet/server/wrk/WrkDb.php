@@ -3,7 +3,7 @@ include_once('configDb.php');
 
 class WrkDb
 {
-    private static $instance; 
+    private static $instance;
     private $pdo;
 
     /**
@@ -19,7 +19,7 @@ class WrkDb
             // Log the error and terminate gracefully
             error_log("Erreur de connexion à la base de données: " . $e->getMessage());
             http_response_code(500);
-            die("Erreur de connexion à la base de données. Veuillez contacter l'administrateur. ". $e->getMessage());
+            die("Erreur de connexion à la base de données. Veuillez contacter l'administrateur. " . $e->getMessage());
         }
     }
 
@@ -34,16 +34,21 @@ class WrkDb
         return self::$instance;
     }
 
+    /**
+     * execute une requete après y avoir associé les paramètre (pour éviter les injections)
+     */
     public function executeQuery($query, $params = array())
     {
         try {
             $stmt = $this->pdo->prepare($query);
             $stmt->execute($params);
-            return $stmt; 
+            return $stmt;
         } catch (PDOException $e) {
             http_response_code(500);
             error_log("Erreur lors de l'exécution de la requête: " . $e->getMessage());
-            die("Erreur lors de l'exécution de la requête: " . $e->getMessage());
+            //ne tue pas complétement l'execution en cas de problèmes. 
+            //die("Erreur lors de l'exécution de la requête: " . $e->getMessage());
+            return null;
         }
     }
 }
