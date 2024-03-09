@@ -6,20 +6,25 @@ Repository du projet personnel du module 151
 
 ### Description du projet
 
-Durant ce module 151, nous allons créer une application web client-serveur en PHP et JavaScript. Mon projet s’intitule Semaphor et consiste en une application de messagerie en direct. Les utilisateurs peuvent lire les anciens messages et doivent se loguer pour en envoyer.
-Il y aura une chatroom principale et éventuellement d’autres chatrooms
+Durant ce module 151, nous allons créer une application web client-serveur en PHP et JavaScript. Mon projet s’intitule Semaphor et consiste en une application de messagerie en direct. Les utilisateurs peuvent lire les anciens messages et doivent se loguer pour en envoyer. <br>
+Il y aura une chatroom principale et éventuellement d’autres chatrooms (C'est implanté au final !) <br>
 Plus d'information dans le [RP](/documentation/151_RP_GENDRE.pdf).
 
 # Accès
-Le site est hébergé sur [le domaine de l'école](https://151.gendres.emf-informatique.ch/). Voici quelques logins que vous pouvez essayer pour profiter de toutes les fonctionnalités (n'hésitez à créer votre compte !)
+Le site est hébergé sur [le domaine de l'école](https://151.gendres.emf-informatique.ch/). Voici quelques logins que vous pouvez essayer pour profiter de toutes les fonctionnalités (n'hésitez à créer votre compte !) <br>
+~~Un conseil : n'oubliez pas votre mot de passe !~~
 
-| Login   | Mot de passe |
-| ------- | ------------ |
-| admin   | admin        |
-| gendres | Pa$$w0rd     |
-| qwe     | qwe          |
+| Login         | Mot de passe                    |
+| ------------- | ------------------------------- |
+| admin         | admin                           |
+| gendres       | Pa$$w0rd                        |
+| qwe           | qwe                             |
+| [Votre login] | [Un mot de passe très sécurisé] |
 
 ---
+---
+# TODO
+voir le fichier [TODO](/documentation/TODO.txt).
 
 # Arborescence
 
@@ -69,7 +74,7 @@ Le site est hébergé sur [le domaine de l'école](https://151.gendres.emf-infor
 
 ---
 # Screenshots du site web
-
+D'autres images de la conception sont disponible sous [images](/documentation/img/).
 ## Ecran de Login
 
 ![écran de login](/documentation/img/login-page.png)
@@ -82,23 +87,23 @@ Le site est hébergé sur [le domaine de l'école](https://151.gendres.emf-infor
 
 ![Mode Logué](/documentation/img/chat-page.png)
 
+
+
 ---
 
 # Use cases
 
 Voici les Use Cases de l’application. Il y aura trois acteurs différents : les visiteurs, les utilisateurs et les administrateurs. Voici ce qu’ils peuvent faire :
 
-| Acteurs        | Actions                                                                       |
-| -------------- | ----------------------------------------------------------------------------- |
+| Acteurs        | Actions                                                                          |
+| -------------- | -------------------------------------------------------------------------------- |
 | Visiteur       | Se connecter / créer un compte / voir les anciens messages de la room principale |
-| Utilisateur    | Se déconnecter / envoyer des messages / rejoindre et créer des room           |
-| Administrateur | Même chose que les utilisateurs / supprimer des messages                      |
+| Utilisateur    | Se déconnecter / envoyer des messages / rejoindre et créer des room              |
+| Administrateur | Même chose que les utilisateurs / supprimer des messages                         |
 
 ![Use Case](/documentation/img/151%20-%20Use%20Cases.jpg)
 
----
-# TODO
-voir le fichier [TODO](/documentation/TODO.txt).
+
 
 --- 
 # Idées de Projet [DEPRECATED]

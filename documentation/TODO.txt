@@ -1,5 +1,9 @@
 ===TODO ===
 CSS pour natel
-autolog la session en fonction du localstorage
 delete message  clic seulement sur message seulement (pas div entier)
+le serveur fait une erreur 500 quand un emoji est envoyé
+mettre en place un timer pour eviter le spam (mode lent)
+les noms d'utilisateur longs ou avec des espaces cassent les CSS
+
+
 
